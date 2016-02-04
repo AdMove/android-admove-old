@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_menu_home"
+            android:title="@string/menu_action_home" />
+        <item
+            android:id="@+id/nav_inbox"
+            android:icon="@drawable/ic_menu_mail"
+            android:title="@string/menu_action_inbox" />
+        <item
+            android:id="@+id/nav_map"
+            android:icon="@drawable/ic_menu_globe"
+            android:title="@string/menu_action_map" />
+        <item
+            android:id="@+id/nav_manage"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/menu_action_tools" />
+    </group>
+
+    <item android:title="@string/menu_title_media">
+        <menu>
+            <item
+                android:id="@+id/nav_camera"
+                android:icon="@drawable/ic_menu_camera"
+                android:title="@string/menu_action_import" />
+            <item
+                android:id="@+id/nav_gallery"
+                android:icon="@drawable/ic_menu_gallery"
+                android:title="@string/menu_action_gallery" />
+        </menu>
+    </item>
+
+    <item android:title="@string/menu_title_communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="@string/menu_action_share" />
+            <item
+                android:id="@+id/nav_contact"
+                android:icon="@drawable/ic_menu_send"
+                android:title="@string/menu_contact_us" />
+        </menu>
+    </item>
+
+</menu>
