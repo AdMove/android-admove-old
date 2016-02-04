@@ -3,6 +3,7 @@ package com.admove.android.activities;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -17,6 +18,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.admove.R;
+import com.admove.android.fragments.HomeFragment;
+import com.admove.android.fragments.InboxFragment;
+import com.admove.android.fragments.ManageFragment;
+import com.admove.android.fragments.MapFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -82,29 +87,41 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Close all currently open drawer views by animating them out of view.
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment;
         FragmentTransaction fragmentTransaction;
+        FragmentManager fragmentManager = getSupportFragmentManager();
 
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_home) {
             // Handle the home action
-
+            fragment = new HomeFragment();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .commit();
         } else if (id == R.id.nav_inbox) {
             // Handle the inbox action
-
+            fragment = new InboxFragment();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .commit();
         } else if (id == R.id.nav_map) {
             // Handle the history action
-
+            fragment = new MapFragment();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .commit();
         } else if (id == R.id.nav_manage) {
             // Handle the manage action
-
+            fragment = new ManageFragment();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .commit();
         } else if (id == R.id.nav_camera) {
             // Handle the camera action
 
