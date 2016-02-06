@@ -1,0 +1,9 @@
+<resources>
+    <!--
+    See this page for more information:
+    https://developers.google.com/maps/documentation/android/start#get_an_android_certificate_and_the_google_maps_api_key
+    -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
+        AIzaSyCyg7ZAGa3TjVDaNiE2b7k4Hycq9IiXeUs
+    </string>
+</resources>

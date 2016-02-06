@@ -1,12 +1,12 @@
 package com.admove.android.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,11 +21,11 @@ import com.admove.R;
 import com.admove.android.fragments.HomeFragment;
 import com.admove.android.fragments.InboxFragment;
 import com.admove.android.fragments.ManageFragment;
-import com.admove.android.fragments.MapFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    @SuppressWarnings("FieldCanBeLocal")
     private Toolbar toolbar;
 
     @Override
@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_button_olympicgames));
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,6 +52,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        changeFragment(R.id.nav_home);
     }
 
     @Override
@@ -87,17 +88,24 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Close all currently open drawer views by animating them out of view.
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
+        // Handle navigation view item clicks here.
+        changeFragment(item.getItemId());
+
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    private void changeFragment(int id) {
         Fragment fragment;
-        FragmentTransaction fragmentTransaction;
         FragmentManager fragmentManager = getSupportFragmentManager();
 
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
         if (id == R.id.nav_home) {
             // Handle the home action
             fragment = new HomeFragment();
@@ -112,10 +120,8 @@ public class MainActivity extends AppCompatActivity
                     .commit();
         } else if (id == R.id.nav_map) {
             // Handle the history action
-            fragment = new MapFragment();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, fragment)
-                    .commit();
+            Intent intent = new Intent(this, MapActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_manage) {
             // Handle the manage action
             fragment = new ManageFragment();
@@ -135,8 +141,6 @@ public class MainActivity extends AppCompatActivity
             // Handle the contact action
 
         }
-
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
+
 }
