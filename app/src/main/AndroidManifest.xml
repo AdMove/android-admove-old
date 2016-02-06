@@ -38,6 +38,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".android.activities.MapActivity"
             android:label="@string/title_activity_map"
@@ -47,6 +48,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.admove.android.activities.MainActivity" />
         </activity>
+
     </application>
 
 </manifest>
