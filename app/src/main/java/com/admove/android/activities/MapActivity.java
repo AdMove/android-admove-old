@@ -12,9 +12,12 @@ import android.widget.Toast;
 
 import com.admove.R;
 import com.admove.android.utils.PermissionUtils;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
 
 /**
  * This is how GMS Location can be used to check for changes to the users location.  The
@@ -28,19 +31,24 @@ public class MapActivity extends AppCompatActivity implements
         GoogleMap.OnMyLocationButtonClickListener,
         OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
 
+    @SuppressWarnings("unused")
+    public static final CameraPosition LOCATION =
+            new CameraPosition.Builder().target(new LatLng(41.7167, 44.7833))
+                    .zoom(15.5f)
+                    .bearing(0)
+                    .tilt(25)
+                    .build();
     /**
      * Request code for location permission request.
      *
      * @see #onRequestPermissionsResult(int, String[], int[])
      */
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-
     /**
      * Flag indicating whether a requested permission has been denied after returning in
      * {@link #onRequestPermissionsResult(int, String[], int[])}.
      */
     private boolean mPermissionDenied = false;
-
     private GoogleMap mMap;
 
     @Override
@@ -64,6 +72,7 @@ public class MapActivity extends AppCompatActivity implements
         Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
         // Return false so that we don't consume the event and the default behavior still occurs
         // (the camera animates to the user's current position).
+
         return false;
     }
 
@@ -71,6 +80,7 @@ public class MapActivity extends AppCompatActivity implements
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(41.7167, 44.7833), 10));
         mMap.setOnMyLocationButtonClickListener(this);
         enableMyLocation();
     }
@@ -122,6 +132,7 @@ public class MapActivity extends AppCompatActivity implements
         } else if (mMap != null) {
             // Access to the location has been granted to the app.
             mMap.setMyLocationEnabled(true);
+
         }
     }
 
