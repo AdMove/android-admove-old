@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.admove">
 
     <!--
@@ -47,12 +48,14 @@
             android:name=".android.activities.MapActivity"
             android:label="@string/title_activity_map"
             android:parentActivityName=".android.activities.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            tools:ignore="UnusedAttribute">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.admove.android.activities.MainActivity" />
         </activity>
 
+        <service android:name=".android.services.LocationTrackingIntentService" />
     </application>
 
 </manifest>
