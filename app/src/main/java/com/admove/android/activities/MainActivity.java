@@ -26,6 +26,7 @@ import com.admove.R;
 import com.admove.android.fragments.HomeFragment;
 import com.admove.android.fragments.InboxFragment;
 import com.admove.android.fragments.ManageFragment;
+import com.admove.android.services.LocationTrackingIntentService;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -57,7 +58,8 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 Snackbar.make(view, "Starting to track your movement", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-
+                Intent intent = new Intent(MainActivity.this, LocationTrackingIntentService.class);
+                startService(intent);
             }
         });
 
