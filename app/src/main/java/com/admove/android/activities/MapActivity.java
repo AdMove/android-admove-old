@@ -1,13 +1,18 @@
 package com.admove.android.activities;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.admove.R;
@@ -85,6 +90,11 @@ public class MapActivity extends AppCompatActivity implements
         enableMyLocation();
     }
 
+    private void newLocation(Location location){
+        Log.d("locationLog", "new location: "+location);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 10));
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
@@ -133,6 +143,30 @@ public class MapActivity extends AppCompatActivity implements
             // Access to the location has been granted to the app.
             mMap.setMyLocationEnabled(true);
 
+            LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
+// Define a listener that responds to location updates
+            LocationListener locationListener = new LocationListener() {
+                public void onLocationChanged(Location location) {
+                    // Called when a new location is found by the network location provider.
+                    newLocation(location);
+                }
+
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+                    Log.d("locationLog", "location status changed");
+                }
+
+                public void onProviderEnabled(String provider) {
+                    Log.d("locationLog", "location provider enabled: " + provider);
+                }
+
+                public void onProviderDisabled(String provider) {
+                    Log.d("locationLog", "location provider disabled: " + provider);
+                }
+            };
+
+// Register the listener with the Location Manager to receive location updates
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
         }
     }
 

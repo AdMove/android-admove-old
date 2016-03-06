@@ -5,5 +5,4 @@ package com.admove.android.utils.temp;
  */
 public class DataTemp {
 
-
 }
