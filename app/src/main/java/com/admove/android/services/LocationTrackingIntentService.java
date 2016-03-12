@@ -1,12 +1,15 @@
 package com.admove.android.services;
 
+import android.Manifest;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
 /**
@@ -16,16 +19,17 @@ import android.util.Log;
  * <p/>
  * Created by Giorgi on 2/28/2016.
  */
-public class LocationTrackingIntentService extends IntentService implements LocationListener {
+public class LocationTrackingIntentService extends IntentService
+        implements LocationListener {
 
-    private static final String NAME = "LocationTrackingService";
-    private static LocationManager locationManager;
+    private static String name;
 
     /**
      * Creates an IntentService without need of name string.
      */
+    @SuppressWarnings("unused")
     public LocationTrackingIntentService() {
-        this(LocationTrackingIntentService.NAME);
+        this("LocationTrackingService");
     }
 
     /**
@@ -35,14 +39,14 @@ public class LocationTrackingIntentService extends IntentService implements Loca
      */
     public LocationTrackingIntentService(String name) {
         super(name);
-        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        LocationTrackingIntentService.name = name;
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
         try {
             Thread.sleep(5000);
-            Log.d(LocationTrackingIntentService.NAME, "I'm alive!");
+            Log.d(name, "I'm alive!");
         } catch (InterruptedException e) {
             // Restore interrupt status.
             Thread.currentThread().interrupt();
@@ -52,20 +56,46 @@ public class LocationTrackingIntentService extends IntentService implements Loca
     @Override
     public void onCreate() {
         super.onCreate();
-        // Register the listener with the Location Manager to receive location updates
-        // TODO: locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+        // Acquire a reference to the system Location Manager
+        LocationManager locationManager = (LocationManager)
+                getSystemService(Context.LOCATION_SERVICE);
+        if (checkAccessFineLocationPermission())
+            // Register the listener with the Location Manager to receive location updates
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        // TODO: locationManager.removeUpdates(this);
+        LocationManager locationManager = (LocationManager)
+                getSystemService(Context.LOCATION_SERVICE);
+        if (checkAccessFineLocationPermission())
+            // Remove the listener we previously added
+            locationManager.removeUpdates(this);
+    }
+
+    @SuppressWarnings("RedundantIfStatement")
+    private boolean checkAccessFineLocationPermission() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return false;
+        }
+        return true;
     }
 
     @Override
     public void onLocationChanged(Location location) {
         // Called when a new location is found by the network location provider.
-        // TODO: makeUseOfNewLocation(location);
+        Log.d(name, "Latitude " + location.getLatitude());
+        Log.d(name, "Longitude " + location.getLongitude());
     }
 
     @Override
@@ -82,4 +112,5 @@ public class LocationTrackingIntentService extends IntentService implements Loca
     public void onProviderDisabled(String provider) {
 
     }
+
 }
