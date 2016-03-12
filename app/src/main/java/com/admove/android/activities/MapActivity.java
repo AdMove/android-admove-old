@@ -112,26 +112,38 @@ public class MapActivity extends AppCompatActivity implements
         for (int i = 0; i < locations.size(); i++) {
             roadArr[i] = new com.google.maps.model.LatLng(locations.get(i).latitude, locations.get(i).longitude);
         }
-        PendingResult<SnappedPoint[]> result = RoadsApi.snapToRoads(context, roadArr);
-        result.setCallback(new PendingResult.Callback<SnappedPoint[]>() {
-            @Override
-            public void onResult(SnappedPoint[] result) {
-                PolylineOptions road = new PolylineOptions().width(10).color(Color.RED);
-                for (int i = 0; i < result.length; i++) {
-                    LatLng p = new LatLng(result[i].location.lat, result[i].location.lng);
+        PendingResult<SnappedPoint[]> result = RoadsApi.snapToRoads(context, true, roadArr);
+//        result.setCallback(new PendingResult.Callback<SnappedPoint[]>() {
+//            @Override
+//            public void onResult(SnappedPoint[] result) {
+//                PolylineOptions road = new PolylineOptions().width(10).color(Color.RED);
+//                for (int i = 0; i < result.length; i++) {
+//                    LatLng p = new LatLng(result[i].location.lat, result[i].location.lng);
+//                    road.add(p);
+//                }
+//                mMap.addPolyline(road);
+//                Log.d("locationLog", "place real road");
+//            }
+//
+//            @Override
+//            public void onFailure(Throwable e) {
+//                Log.d("locationLog", "error: " + e);
+//            }
+//        });
+        try {
+            SnappedPoint[] resPoints = result.await();
+            PolylineOptions road = new PolylineOptions().width(10).color(Color.RED);
+                for (int i = 0; i < resPoints.length; i++) {
+                    LatLng p = new LatLng(resPoints[i].location.lat, resPoints[i].location.lng);
                     road.add(p);
                 }
                 mMap.addPolyline(road);
                 Log.d("locationLog", "place real road");
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-            @Override
-            public void onFailure(Throwable e) {
-                Log.d("locationLog", "error: " + e);
-            }
-        });
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locations.get(0), 15));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locations.get(0), 20));
     }
 
     private ArrayList<LatLng> getLocationsList(){
