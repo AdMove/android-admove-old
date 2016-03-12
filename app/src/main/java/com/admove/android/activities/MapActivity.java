@@ -3,6 +3,7 @@ package com.admove.android.activities;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -23,6 +24,14 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.GeoApiContext;
+import com.google.maps.PendingResult;
+import com.google.maps.RoadsApi;
+import com.google.maps.model.SnappedPoint;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is how GMS Location can be used to check for changes to the users location.  The
@@ -64,6 +73,7 @@ public class MapActivity extends AppCompatActivity implements
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -88,7 +98,79 @@ public class MapActivity extends AppCompatActivity implements
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(41.7167, 44.7833), 10));
         mMap.setOnMyLocationButtonClickListener(this);
         enableMyLocation();
+
+        placeRoad();
     }
+
+    private void placeRoad(){
+        ArrayList<LatLng> locations = getLocationsList();
+        placeLocations(locations, 10, Color.BLUE);
+
+
+        GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyCyg7ZAGa3TjVDaNiE2b7k4Hycq9IiXeUs");
+        com.google.maps.model.LatLng[] roadArr = new com.google.maps.model.LatLng[locations.size()];
+        for (int i = 0; i < locations.size(); i++) {
+            roadArr[i] = new com.google.maps.model.LatLng(locations.get(i).latitude, locations.get(i).longitude);
+        }
+        PendingResult<SnappedPoint[]> result = RoadsApi.snapToRoads(context, true, roadArr);
+//        result.setCallback(new PendingResult.Callback<SnappedPoint[]>() {
+//            @Override
+//            public void onResult(SnappedPoint[] result) {
+//                PolylineOptions road = new PolylineOptions().width(10).color(Color.RED);
+//                for (int i = 0; i < result.length; i++) {
+//                    LatLng p = new LatLng(result[i].location.lat, result[i].location.lng);
+//                    road.add(p);
+//                }
+//                mMap.addPolyline(road);
+//                Log.d("locationLog", "place real road");
+//            }
+//
+//            @Override
+//            public void onFailure(Throwable e) {
+//                Log.d("locationLog", "error: " + e);
+//            }
+//        });
+        try {
+            SnappedPoint[] resPoints = result.await();
+            PolylineOptions road = new PolylineOptions().width(10).color(Color.RED);
+                for (int i = 0; i < resPoints.length; i++) {
+                    LatLng p = new LatLng(resPoints[i].location.lat, resPoints[i].location.lng);
+                    road.add(p);
+                }
+                mMap.addPolyline(road);
+                Log.d("locationLog", "place real road");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locations.get(0), 20));
+    }
+
+    private ArrayList<LatLng> getLocationsList(){
+        ArrayList<LatLng> list = new ArrayList<>();
+
+        list.add(new LatLng(41.727547, 44.813904));
+        list.add(new LatLng(41.727455, 44.815041));
+        list.add(new LatLng(41.727479, 44.815824));
+        list.add(new LatLng(41.727191, 44.817208));
+        list.add(new LatLng(41.726835, 44.817267));
+        list.add(new LatLng(41.726807, 44.816006));
+        list.add(new LatLng(41.727147, 44.812235));
+
+        return list;
+    }
+
+
+
+    private void placeLocations(List<LatLng> locations, int width, int color){
+        PolylineOptions road = new PolylineOptions().width(width).color(color);
+        for(int i = 0 ; i < locations.size() ; i++)
+        {
+            road.add(locations.get(i));
+        }
+        mMap.addPolyline(road);
+    }
+
 
     private void newLocation(Location location){
         Log.d("locationLog", "new location: "+location);
