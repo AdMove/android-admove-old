@@ -215,7 +215,7 @@ public class MapActivity extends AppCompatActivity implements
 
             LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
-// Define a listener that responds to location updates
+            // Define a listener that responds to location updates
             LocationListener locationListener = new LocationListener() {
                 public void onLocationChanged(Location location) {
                     // Called when a new location is found by the network location provider.
@@ -235,7 +235,7 @@ public class MapActivity extends AppCompatActivity implements
                 }
             };
 
-// Register the listener with the Location Manager to receive location updates
+            // Register the listener with the Location Manager to receive location updates
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
         }
     }
