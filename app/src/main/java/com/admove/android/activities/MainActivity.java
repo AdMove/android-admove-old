@@ -23,7 +23,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.admove.R;
-import com.admove.android.behavior.Action;
+import com.admove.android.behavior.TrackingAction;
 import com.admove.android.behavior.ServiceStatus;
 import com.admove.android.behavior.StartTrackingAction;
 import com.admove.android.behavior.StopTrackingAction;
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
-            private Map<ServiceStatus, Action> actions = new HashMap<ServiceStatus, Action>() {{
+            private Map<ServiceStatus, TrackingAction> actions = new HashMap<ServiceStatus, TrackingAction>() {{
                 put(ServiceStatus.STOPPED, new StartTrackingAction());
                 put(ServiceStatus.RUNNING, new StopTrackingAction());
             }};
