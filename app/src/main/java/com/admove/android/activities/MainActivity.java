@@ -5,10 +5,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -23,14 +23,19 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.admove.R;
+import com.admove.android.behavior.Action;
+import com.admove.android.behavior.ServiceStatus;
+import com.admove.android.behavior.StartTrackingAction;
+import com.admove.android.behavior.StopTrackingAction;
 import com.admove.android.fragments.HomeFragment;
 import com.admove.android.fragments.InboxFragment;
 import com.admove.android.fragments.ManageFragment;
-import com.admove.android.services.LocationTrackingService;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -54,12 +59,16 @@ public class MainActivity extends AppCompatActivity
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
+            private Map<ServiceStatus, Action> actions = new HashMap<ServiceStatus, Action>() {{
+                put(ServiceStatus.STOPPED, new StartTrackingAction());
+                put(ServiceStatus.RUNNING, new StopTrackingAction());
+            }};
+
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Starting to track your movement", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                Intent intent = new Intent(MainActivity.this, LocationTrackingService.class);
-                startService(intent);
+                actions.get(ServiceStatus.get(PreferenceManager
+                                .getDefaultSharedPreferences(MainActivity.this),
+                        MainActivity.this)).onClick(view, MainActivity.this);
             }
         });
 
