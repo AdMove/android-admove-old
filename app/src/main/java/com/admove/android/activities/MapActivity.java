@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -17,6 +16,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.admove.R;
+import com.admove.android.database.DBFactory;
+import com.admove.android.model.Location;
 import com.admove.android.utils.PermissionUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -103,14 +104,20 @@ public class MapActivity extends AppCompatActivity implements
     }
 
     private void placeRoad(){
-        ArrayList<LatLng> locations = getLocationsList();
+        List<Location> locations = DBFactory.getInstance().getLocationManager().getAll();
+        // this MUST be deleted
+        if (locations == null){
+            locations = getLocationsList();
+        }
+
+
         placeLocations(locations, 10, Color.BLUE);
 
 
         GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyCyg7ZAGa3TjVDaNiE2b7k4Hycq9IiXeUs");
         com.google.maps.model.LatLng[] roadArr = new com.google.maps.model.LatLng[locations.size()];
         for (int i = 0; i < locations.size(); i++) {
-            roadArr[i] = new com.google.maps.model.LatLng(locations.get(i).latitude, locations.get(i).longitude);
+            roadArr[i] = new com.google.maps.model.LatLng(locations.get(i).getLatitude(), locations.get(i).getLongitude());
         }
         PendingResult<SnappedPoint[]> result = RoadsApi.snapToRoads(context, true, roadArr);
 //        result.setCallback(new PendingResult.Callback<SnappedPoint[]>() {
@@ -143,30 +150,30 @@ public class MapActivity extends AppCompatActivity implements
             e.printStackTrace();
         }
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locations.get(0), 20));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locations.get(0).toLatLng(), 20));
     }
 
-    private ArrayList<LatLng> getLocationsList(){
-        ArrayList<LatLng> list = new ArrayList<>();
+    private ArrayList<Location> getLocationsList(){
+        ArrayList<Location> list = new ArrayList<>();
 
-        list.add(new LatLng(41.727547, 44.813904));
-        list.add(new LatLng(41.727455, 44.815041));
-        list.add(new LatLng(41.727479, 44.815824));
-        list.add(new LatLng(41.727191, 44.817208));
-        list.add(new LatLng(41.726835, 44.817267));
-        list.add(new LatLng(41.726807, 44.816006));
-        list.add(new LatLng(41.727147, 44.812235));
+        list.add(new Location(41.727547, 44.813904, 0));
+        list.add(new Location(41.727455, 44.815041, 0));
+        list.add(new Location(41.727479, 44.815824, 0));
+        list.add(new Location(41.727191, 44.817208, 0));
+        list.add(new Location(41.726835, 44.817267, 0));
+        list.add(new Location(41.726807, 44.816006, 0));
+        list.add(new Location(41.727147, 44.812235, 0));
 
         return list;
     }
 
 
 
-    private void placeLocations(List<LatLng> locations, int width, int color){
+    private void placeLocations(List<Location> locations, int width, int color){
         PolylineOptions road = new PolylineOptions().width(width).color(color);
         for(int i = 0 ; i < locations.size() ; i++)
         {
-            road.add(locations.get(i));
+            road.add(locations.get(i).toLatLng());
         }
         mMap.addPolyline(road);
     }
@@ -225,30 +232,30 @@ public class MapActivity extends AppCompatActivity implements
             // Access to the location has been granted to the app.
             mMap.setMyLocationEnabled(true);
 
-            LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
-            // Define a listener that responds to location updates
-            LocationListener locationListener = new LocationListener() {
-                public void onLocationChanged(Location location) {
-                    // Called when a new location is found by the network location provider.
-                    newLocation(location);
-                }
-
-                public void onStatusChanged(String provider, int status, Bundle extras) {
-                    Log.d("locationLog", "location status changed");
-                }
-
-                public void onProviderEnabled(String provider) {
-                    Log.d("locationLog", "location provider enabled: " + provider);
-                }
-
-                public void onProviderDisabled(String provider) {
-                    Log.d("locationLog", "location provider disabled: " + provider);
-                }
-            };
-
-            // Register the listener with the Location Manager to receive location updates
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+//            LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+//
+//            // Define a listener that responds to location updates
+//            LocationListener locationListener = new LocationListener() {
+//                public void onLocationChanged(Location location) {
+//                    // Called when a new location is found by the network location provider.
+//                    newLocation(location);
+//                }
+//
+//                public void onStatusChanged(String provider, int status, Bundle extras) {
+//                    Log.d("locationLog", "location status changed");
+//                }
+//
+//                public void onProviderEnabled(String provider) {
+//                    Log.d("locationLog", "location provider enabled: " + provider);
+//                }
+//
+//                public void onProviderDisabled(String provider) {
+//                    Log.d("locationLog", "location provider disabled: " + provider);
+//                }
+//            };
+//
+//            // Register the listener with the Location Manager to receive location updates
+//            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
         }
     }
 

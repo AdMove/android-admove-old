@@ -1,5 +1,7 @@
 package com.admove.android.model;
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class Location {
 
     private double latitude;
@@ -36,4 +38,7 @@ public class Location {
         this.time = time;
     }
 
+    public LatLng toLatLng(){
+        return new LatLng(getLatitude(), getLongitude());
+    }
 }
