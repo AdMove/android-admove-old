@@ -1,6 +1,6 @@
 package com.admove.android.database;
 
-import android.location.Location;
+import com.admove.android.model.Location;
 
 import java.util.List;
 
