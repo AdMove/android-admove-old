@@ -2,6 +2,8 @@ package com.admove.android.model;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.sql.Time;
+
 public class Location {
 
     private double latitude;
@@ -12,6 +14,10 @@ public class Location {
         this.latitude = latitude;
         this.longitude = longitude;
         this.time = time;
+    }
+
+    public Location(android.location.Location loc){
+        this(loc.getLatitude(), loc.getLongitude(), loc.getTime());
     }
 
     public double getLatitude() {
@@ -40,5 +46,10 @@ public class Location {
 
     public LatLng toLatLng(){
         return new LatLng(getLatitude(), getLongitude());
+    }
+
+    @Override
+    public String toString(){
+        return latitude+":"+longitude+"("+new Time(time)+")";
     }
 }

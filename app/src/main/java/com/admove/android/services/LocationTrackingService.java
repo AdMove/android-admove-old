@@ -21,6 +21,8 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.admove.android.database.DBFactory;
+
 /**
  * Service which tracks user movement in background. This service might stop!
  * The Android system will force-stop a service only when memory is low and
@@ -119,6 +121,7 @@ public class LocationTrackingService extends Service {
             // Called when a new location is found by the network location provider.
             Log.d(name, "Latitude " + location.getLatitude());
             Log.d(name, "Longitude " + location.getLongitude());
+            DBFactory.getInstance().getLocationManager().save(new com.admove.android.model.Location(location));
         }
 
         @Override
