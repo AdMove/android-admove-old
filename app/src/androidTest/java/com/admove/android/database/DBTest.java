@@ -1,4 +1,4 @@
-package com.admove.android;
+package com.admove.android.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;
 
-import com.admove.android.database.DBHelper;
 import com.admove.android.model.Location;
 import com.admove.android.utils.Function;
 
@@ -15,6 +14,8 @@ import org.junit.Test;
 import java.util.List;
 
 /**
+ * Cool test
+ *
  * Created by toka on 3/19/2016.
  */
 public class DBTest extends AndroidTestCase {
@@ -39,7 +40,7 @@ public class DBTest extends AndroidTestCase {
     }
 
     @Test
-    public void testAddLocation(){
+    public void testAddLocation() {
         ContentValues values = new ContentValues();
 
         values.put(DBHelper.LOCATION_LATITUDE_FIELD_NAME, object.getLatitude());
@@ -51,7 +52,7 @@ public class DBTest extends AndroidTestCase {
     }
 
     @Test
-    public void testGetAllLocation(){
+    public void testGetAllLocation() {
         ContentValues values = new ContentValues();
 
         values.put(DBHelper.LOCATION_LATITUDE_FIELD_NAME, object.getLatitude());

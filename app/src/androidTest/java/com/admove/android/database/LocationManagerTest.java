@@ -1,13 +1,9 @@
-package com.admove.android;
+package com.admove.android.database;
 
 import android.content.Context;
 import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;
 
-import com.admove.android.database.DBFactory;
-import com.admove.android.database.DBHelper;
-import com.admove.android.database.LocationManager;
-import com.admove.android.database.Manager;
 import com.admove.android.model.Location;
 
 import org.junit.Test;
@@ -15,6 +11,8 @@ import org.junit.Test;
 import java.util.List;
 
 /**
+ * Cool test
+ *
  * Created by toka on 3/19/2016.
  */
 public class LocationManagerTest extends AndroidTestCase {
@@ -41,7 +39,7 @@ public class LocationManagerTest extends AndroidTestCase {
     }
 
     @Test
-    public void testSaveAndGetAll(){
+    public void testSaveAndGetAll() {
         manager.save(object);
 
         List<Location> all = manager.getAll();
@@ -56,7 +54,7 @@ public class LocationManagerTest extends AndroidTestCase {
     }
 
     @Test
-    public void testDoubleSaveAndGetAll(){
+    public void testDoubleSaveAndGetAll() {
         Location loc1 = new Location(12.345, 54.321, 654321);
         Location loc2 = new Location(78.9654, 45.6547, 123456789);
         manager.save(loc1);

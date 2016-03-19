@@ -121,7 +121,8 @@ public class LocationTrackingService extends Service {
             // Called when a new location is found by the network location provider.
             Log.d(name, "Latitude " + location.getLatitude());
             Log.d(name, "Longitude " + location.getLongitude());
-            DBFactory.getInstance().getLocationManager().save(new com.admove.android.model.Location(location));
+            DBFactory.getInstance().getLocationManager()
+                    .save(new com.admove.android.model.Location(location));
         }
 
         @Override
