@@ -11,6 +11,8 @@ public interface Manager<E> {
 
     void save(E object);
 
+    List<E> getLast(int count);
+
     List<E> getAll();
 
 }

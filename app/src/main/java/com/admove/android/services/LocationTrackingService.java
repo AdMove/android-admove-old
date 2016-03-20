@@ -80,6 +80,9 @@ public class LocationTrackingService extends Service {
 
     @Override
     public void onDestroy() {
+        Message msg = mServiceHandler.obtainMessage();
+        msg.arg1 = -1;
+        mServiceHandler.sendMessage(msg);
         Toast.makeText(this, "Location service destroyed!", Toast.LENGTH_SHORT).show();
     }
 
@@ -112,8 +115,14 @@ public class LocationTrackingService extends Service {
             LocationManager locationManager = (LocationManager)
                     getSystemService(Context.LOCATION_SERVICE);
             if (checkAccessFineLocationPermission())
-                // Register the listener with the Location Manager to receive location updates
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+                if (msg.arg1 == -1)
+                    // Unregister the listener with the Location
+                    // Manager to stop receiving location updates
+                    locationManager.removeUpdates(this);
+                else
+                    // Register the listener with the Location Manager to receive location updates
+                    locationManager
+                            .requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
         }
 
         @Override

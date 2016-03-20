@@ -5,10 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.provider.BaseColumns;
 import android.util.Log;
 
-import com.admove.android.model.Location;
 import com.admove.android.utils.Function;
 
 import java.util.ArrayList;
@@ -45,22 +43,22 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS "+LOCATION_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + LOCATION_TABLE_NAME);
         onCreate(db);
     }
 
-    public long insertInto(String table, ContentValues values){
+    public long insertInto(String table, ContentValues values) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.insert(table, null, values);
     }
 
-    public <T> List<T> getAllFrom(String table, Function<Cursor, T> handler){
-        Log.d("db-log", "get all from "+table);
+    public <T> List<T> getAllFrom(String table, Function<Cursor, T> handler) {
+        Log.d("db-log", "get all from " + table);
         List<T> list = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery("select * from "+table, null );
+        Cursor res = db.rawQuery("SELECT * FROM " + table + " ORDER BY id ASC LIMIT 50 ", null);
 
-        for (res.moveToFirst(); !res.isAfterLast(); res.moveToNext()){
+        for (res.moveToFirst(); !res.isAfterLast(); res.moveToNext()) {
             T item = handler.apply(res);
             Log.d("db-log", item.toString());
             list.add(item);

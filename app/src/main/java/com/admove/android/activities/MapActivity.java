@@ -126,7 +126,7 @@ public class MapActivity extends AppCompatActivity implements
                 try {
                     return RoadsApi.snapToRoads(context, true, roadArr).await();
                 } catch (Exception e) {
-
+                    Log.d("Exception", e.getMessage());
                 }
                 return null;
             }

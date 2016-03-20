@@ -31,6 +31,11 @@ public class LocationManager  implements Manager<Location>{
     }
 
     @Override
+    public List<Location> getLast(int count) {
+        return null;
+    }
+
+    @Override
     public List<Location> getAll() {
         return helper.getAllFrom(DBHelper.LOCATION_TABLE_NAME, new Function<Cursor, Location>() {
             @Override
