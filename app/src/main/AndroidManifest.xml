@@ -56,7 +56,6 @@
                 android:value="com.admove.android.activities.MainActivity" />
         </activity>
 
-        <service android:name=".android.services.LocationTrackingIntentService" />
         <service android:name=".android.services.LocationTrackingService" />
     </application>
 
