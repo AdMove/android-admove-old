@@ -1,6 +1,9 @@
 package com.admove.android.activities;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
@@ -16,6 +19,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -32,6 +36,7 @@ import com.admove.android.behavior.TrackingAction;
 import com.admove.android.fragments.HomeFragment;
 import com.admove.android.fragments.InboxFragment;
 import com.admove.android.fragments.ManageFragment;
+import com.admove.android.services.LocationTrackingService;
 import com.admove.android.utils.PushListenerService;
 
 import java.io.File;
