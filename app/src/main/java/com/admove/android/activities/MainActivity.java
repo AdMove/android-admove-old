@@ -1,6 +1,7 @@
 package com.admove.android.activities;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,13 +24,14 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.admove.R;
-import com.admove.android.behavior.TrackingAction;
 import com.admove.android.behavior.ServiceStatus;
 import com.admove.android.behavior.StartTrackingAction;
 import com.admove.android.behavior.StopTrackingAction;
+import com.admove.android.behavior.TrackingAction;
 import com.admove.android.fragments.HomeFragment;
 import com.admove.android.fragments.InboxFragment;
 import com.admove.android.fragments.ManageFragment;
+import com.admove.android.services.LocationTrackingService;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -59,16 +61,16 @@ public class MainActivity extends AppCompatActivity
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
-            private Map<ServiceStatus, TrackingAction> actions = new HashMap<ServiceStatus, TrackingAction>() {{
-                put(ServiceStatus.STOPPED, new StartTrackingAction());
-                put(ServiceStatus.RUNNING, new StopTrackingAction());
-            }};
+            private Map<ServiceStatus, TrackingAction> actions =
+                    new HashMap<ServiceStatus, TrackingAction>() {{
+                        put(ServiceStatus.STOPPED, new StartTrackingAction());
+                        put(ServiceStatus.RUNNING, new StopTrackingAction());
+                    }};
 
             @Override
             public void onClick(View view) {
-                actions.get(ServiceStatus.get(PreferenceManager
-                                .getDefaultSharedPreferences(MainActivity.this),
-                        MainActivity.this)).onClick(view, MainActivity.this);
+                actions.get(getServiceStatus(LocationTrackingService.class))
+                        .onClick(view, MainActivity.this);
             }
         });
 
@@ -234,6 +236,16 @@ public class MainActivity extends AppCompatActivity
                 // Image capture failed, advise user
             }
         }
+    }
+
+    private ServiceStatus getServiceStatus(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return ServiceStatus.RUNNING;
+            }
+        }
+        return ServiceStatus.STOPPED;
     }
 
 }
