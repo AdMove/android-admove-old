@@ -1,13 +1,18 @@
 package com.admove.android.utils;
 
-import android.app.Application;
+import android.support.multidex.MultiDexApplication;
+import android.util.Log;
 
 import com.admove.android.database.DBHelper;
+import com.amazonaws.mobile.AWSMobileClient;
+import com.amazonaws.mobile.push.PushManager;
 
 /**
  * Created by toka on 3/19/2016.
  */
-public class App extends Application {
+public class App extends MultiDexApplication {
+
+    private final static String LOG_TAG = "AdMove_log";
 
     private static DBHelper dbHelper;
 
@@ -15,10 +20,26 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
+        initializeApplication();
+    }
+
+    private void initializeApplication() {
+        AWSMobileClient.initializeMobileClientIfNecessary(getApplicationContext());
+
+        // Set a listener for changes in push notification state
+        PushManager.setPushStateListener(new PushManager.PushStateListener() {
+            @Override
+            public void onPushStateChange(final PushManager pushManager, boolean isEnabled) {
+                Log.d(LOG_TAG, "Push Notifications Enabled = " + isEnabled);
+                // ...Put any application-specific push state change logic here...
+            }
+        });
+
+
         dbHelper = new DBHelper(this);
     }
 
-    public static DBHelper getDBHelper(){
+    public static DBHelper getDBHelper() {
         return dbHelper;
     }
 }
