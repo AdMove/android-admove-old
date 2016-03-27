@@ -16,7 +16,7 @@ public class Location {
         this.time = time;
     }
 
-    public Location(android.location.Location loc){
+    public Location(android.location.Location loc) {
         this(loc.getLatitude(), loc.getLongitude(), loc.getTime());
     }
 
@@ -44,12 +44,12 @@ public class Location {
         this.time = time;
     }
 
-    public LatLng toLatLng(){
+    public LatLng toLatLng() {
         return new LatLng(getLatitude(), getLongitude());
     }
 
     @Override
-    public String toString(){
-        return latitude+":"+longitude+"("+new Time(time)+")";
+    public String toString() {
+        return latitude + ":" + longitude + "(" + new Time(time) + ")";
     }
 }

@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
+import com.admove.android.services.FusedLocationService;
 import com.admove.android.services.LocationTrackingService;
 
 public class StopTrackingAction implements TrackingAction {
@@ -15,7 +16,7 @@ public class StopTrackingAction implements TrackingAction {
         ServiceStatus.set(PreferenceManager.getDefaultSharedPreferences(context), context, false);
         Snackbar.make(view, "Stopping tracking your movement", Snackbar.LENGTH_LONG)
                 .setAction("TrackingAction", null).show();
-        Intent intent = new Intent(context, LocationTrackingService.class);
+        Intent intent = new Intent(context, FusedLocationService.class);
         context.stopService(intent);
     }
 

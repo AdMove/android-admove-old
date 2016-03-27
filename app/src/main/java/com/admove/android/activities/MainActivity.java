@@ -36,6 +36,7 @@ import com.admove.android.behavior.TrackingAction;
 import com.admove.android.fragments.HomeFragment;
 import com.admove.android.fragments.InboxFragment;
 import com.admove.android.fragments.ManageFragment;
+import com.admove.android.services.FusedLocationService;
 import com.admove.android.services.LocationTrackingService;
 import com.admove.android.utils.PushListenerService;
 
@@ -93,7 +94,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onClick(View view) {
-                actions.get(getServiceStatus(LocationTrackingService.class))
+                actions.get(getServiceStatus(FusedLocationService.class))
                         .onClick(view, MainActivity.this);
             }
         });

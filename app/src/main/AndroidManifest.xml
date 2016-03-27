@@ -96,6 +96,7 @@
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id" />
         
         <service android:name=".android.services.LocationTrackingService" />
+        <service android:name=".android.services.FusedLocationService" />
 
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
