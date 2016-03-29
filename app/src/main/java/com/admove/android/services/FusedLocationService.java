@@ -1,17 +1,21 @@
 package com.admove.android.services;
 
 import android.Manifest;
+import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.admove.android.database.DBFactory;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -60,8 +64,18 @@ public class FusedLocationService extends Service implements
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        super.onStartCommand(intent, flags, startId);
+
         mGoogleApiClient.connect();
-        return super.onStartCommand(intent, flags, startId);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            builder.setPriority(Notification.PRIORITY_HIGH);
+        }
+
+        startForeground(1234, builder.getNotification());
+
+        // If we get killed, after returning from here, restart
+        return START_STICKY;
     }
 
     @Override
@@ -103,6 +117,8 @@ public class FusedLocationService extends Service implements
         // DateFormat.getTimeInstance().format(new Date());
         // TODO: Test and get updates
         Log.i(TAG, new com.admove.android.model.Location(location).toString());
+        DBFactory.getInstance().getLocationManager()
+                .save(new com.admove.android.model.Location(location));
     }
 
     @Override
