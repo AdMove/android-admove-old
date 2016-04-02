@@ -295,6 +295,7 @@ public class GoogleSignInProvider implements SignInProvider {
     public void reloadUserInfo() {
         mGoogleApiClient.blockingConnect();
         Person person = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
+        Log.d("tempLog", "person"+person);
         if (person != null) {
             userName = person.getDisplayName();
             userImageUrl = person.getImage().getUrl();

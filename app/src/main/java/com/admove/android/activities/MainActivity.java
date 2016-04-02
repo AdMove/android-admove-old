@@ -6,10 +6,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -26,6 +26,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.admove.R;
@@ -37,8 +39,9 @@ import com.admove.android.fragments.HomeFragment;
 import com.admove.android.fragments.InboxFragment;
 import com.admove.android.fragments.ManageFragment;
 import com.admove.android.services.FusedLocationService;
-import com.admove.android.services.LocationTrackingService;
 import com.admove.android.utils.PushListenerService;
+import com.amazonaws.mobile.AWSMobileClient;
+import com.amazonaws.mobile.user.IdentityManager;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -49,10 +52,9 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final String LOG_TAG = "MainActivity_log";
-
     public static final int MEDIA_TYPE_IMAGE = 1;
     public static final int MEDIA_TYPE_VIDEO = 2;
+    private static final String LOG_TAG = "MainActivity_log";
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
     private static final String DIRECTORY_NAME = "MyCameraApp";
 
@@ -108,6 +110,18 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        final IdentityManager identityManager =
+                AWSMobileClient.defaultMobileClient().getIdentityManager();
+
+        View headerView = navigationView.getHeaderView(0);
+        TextView userName = (TextView) headerView.findViewById(R.id.nav_user_name);
+        userName.setText(identityManager.getUserName());
+        ImageView userImage = (ImageView) headerView.findViewById(R.id.nav_user_image);
+        Bitmap userBmp = identityManager.getUserImage();
+        if (userBmp != null) {
+            userImage.setImageBitmap(userBmp);
+        }
+
         changeFragment(R.id.nav_home);
     }
 
@@ -148,6 +162,7 @@ public class MainActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        Log.d("temp", "option selected: "+item);
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -165,8 +180,14 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
-        // Handle navigation view item clicks here.
-        changeFragment(item.getItemId());
+        if (item.getItemId() == R.id.nav_logout){
+            AWSMobileClient.defaultMobileClient().getIdentityManager().signOut();
+            Intent intent = new Intent(this, SignInActivity.class);
+            startActivity(intent);
+        }else {
+            // Handle navigation view item clicks here.
+            changeFragment(item.getItemId());
+        }
 
         return true;
     }

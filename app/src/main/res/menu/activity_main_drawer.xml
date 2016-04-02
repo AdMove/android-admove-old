@@ -43,6 +43,10 @@
                 android:id="@+id/nav_contact"
                 android:icon="@drawable/ic_menu_send"
                 android:title="@string/menu_contact_us" />
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_cast_light"
+                android:title="@string/menu_logout" />
         </menu>
     </item>
 
