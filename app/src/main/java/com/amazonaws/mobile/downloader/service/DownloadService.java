@@ -34,7 +34,7 @@ public class DownloadService extends Service {
     private static final String LOG_TAG = DownloadService.class.getSimpleName();
 
     /** The prefix of all extra keys. */
-    public static final String ACTION_PREFIX = "amazonaws.com.amazonws.mobile.downloadservice.";
+    public static final String ACTION_PREFIX = "amazonaws.mobile.downloadservice.";
 
     /** The intent to start the service for no operation. */
     public static final String ACTION_NO_OPERATION = ACTION_PREFIX + "NO_OPERATION";
@@ -109,7 +109,7 @@ public class DownloadService extends Service {
     public static final String ACTION_DOWNLOAD_RESUME_FAILED = ACTION_PREFIX + "DOWNLOAD_RESUME_FAILED";
 
     /** The prefix of all extra keys. */
-    public static final String EXTRA_PREFIX = "amazonaws.com.amazonws.mobile.downloadservice.";
+    public static final String EXTRA_PREFIX = "amazonaws.mobile.downloadservice.";
 
     /** The intent extra key for download id. */
     public static final String EXTRA_LONG_ID = EXTRA_PREFIX + "downloadId";

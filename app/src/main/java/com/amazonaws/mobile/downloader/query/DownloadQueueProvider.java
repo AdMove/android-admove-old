@@ -28,7 +28,7 @@ public class DownloadQueueProvider extends ContentProvider {
      */
     public static synchronized String getAuthority(final Context context) {
         if (authority == null) {
-            authority = "com.amazonaws.com.amazonaws.mobile.downloader-" + context.getPackageName();
+            authority = "com.amazonaws.mobile.downloader-" + context.getPackageName();
         }
         return authority;
     }
@@ -72,11 +72,11 @@ public class DownloadQueueProvider extends ContentProvider {
 
     /** Our MIME type for single rows. */
     public static final String ROW_MIME_TYPE =
-        "vnd.android.cursor.item/vnd.com.amazonaws.com.amazonaws.mobile.downloader." + BASE_PATH;
+        "vnd.android.cursor.item/vnd.com.amazonaws.mobile.downloader." + BASE_PATH;
 
     /** Our MIME type for sets of rows. */
     public static final String TABLE_MIME_TYPE =
-        "vnd.android.cursor.dir/vnd.com.amazonaws.com.amazonaws.mobile.downloader." + BASE_PATH;
+        "vnd.android.cursor.dir/vnd.com.amazonaws.mobile.downloader." + BASE_PATH;
 
     /** The table name. */
     public static final String TABLE_NAME = "download_queue";

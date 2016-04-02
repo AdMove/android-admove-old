@@ -152,7 +152,7 @@ public class HttpDownloadObserver {
     private static Cursor queryForDownloadById(final Context context, final long id) {
         // run the database query
         final Cursor row = QueryHelper.runQueryForDownloadId(Long.toString(id),
-            context, ColumnType.getColumnNames());
+                context, ColumnType.getColumnNames());
         return row;
     }
 
@@ -219,7 +219,7 @@ public class HttpDownloadObserver {
             final String selectionCause = DownloadQueueProvider.COLUMN_DOWNLOAD_FILE_LOCATION + " = ?";
             final String[] selectionArgs = {fileLocation};
             row = QueryHelper.runQueryForDownloadRow(selectionCause, selectionArgs,
-                context, ColumnType.getColumnNames());
+                    context, ColumnType.getColumnNames());
             if (row == null) {
                 return false;
             }

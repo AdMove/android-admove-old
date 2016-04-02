@@ -20,7 +20,7 @@ public class DownloadFlags {
     /** Flag to signify that a Wifi lock must be acquired when downloading. */
     public static final int FLAG_WIFI_LOCK = 0x8;
 
-    /** The flag for com.amazonws.mobile network type. */
+    /** The flag for mobile network type. */
     public static final int FLAG_MOBILE_NETWORK_PROHIBITED = 0x10;
 
     /**

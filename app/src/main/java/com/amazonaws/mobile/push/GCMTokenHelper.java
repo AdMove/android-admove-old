@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.android.gms.iid.InstanceID;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -27,7 +28,7 @@ public class GCMTokenHelper {
 
     private final SharedPreferences sharedPreferences;
 
-    private final GoogleCloudMessaging gcm;
+    private final InstanceID instanceID;
     private final String gcmSenderID;
 
     volatile private String deviceToken;
@@ -40,8 +41,7 @@ public class GCMTokenHelper {
         }
 
         this.gcmSenderID = gcmSenderID;
-        gcm = GoogleCloudMessaging.getInstance(context);
-
+        this.instanceID = InstanceID.getInstance(context);
         sharedPreferences = context.getSharedPreferences(SHARED_PREFS_FILE_NAME,
             Context.MODE_PRIVATE);
 
@@ -76,7 +76,7 @@ public class GCMTokenHelper {
         String newDeviceToken;
         // GCM throws a NullPointerException in some failure cases.
         try {
-            newDeviceToken = gcm.register(gcmSenderID);
+            newDeviceToken = instanceID.getToken(gcmSenderID, GoogleCloudMessaging.INSTANCE_ID_SCOPE);
         } catch (final Exception re) {
             final String error = "Unable to register with GCM. " + re.getMessage();
             Log.e(LOG_TAG, error, re);

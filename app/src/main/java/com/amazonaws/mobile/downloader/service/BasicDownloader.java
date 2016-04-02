@@ -292,11 +292,11 @@ public class BasicDownloader implements DownloadTask.DownloadListener,
         final String[] args = new String[] {String.valueOf(id)};
 
         final String[] cols = QueryHelper.runDownloadQueryForRow(context,
-            DownloadTaskColumns.getColumnNames(), query, args);
+                DownloadTaskColumns.getColumnNames(), query, args);
 
         if (null != cols) {
             final int userFlags = DownloadFlags.parseUserFlags(
-                cols[DownloadTaskColumns.COL_USER_FLAGS.ordinal()]);
+                    cols[DownloadTaskColumns.COL_USER_FLAGS.ordinal()]);
 
             final boolean ars = DownloadState.PAUSED.toString()
                 .equals(cols[DownloadTaskColumns.COL_DOWNLOAD_STATUS.ordinal()]);
