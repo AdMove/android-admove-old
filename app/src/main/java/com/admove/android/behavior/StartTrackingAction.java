@@ -7,7 +7,6 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 
 import com.admove.android.services.FusedLocationService;
-import com.admove.android.services.LocationTrackingService;
 
 public class StartTrackingAction implements TrackingAction {
 
