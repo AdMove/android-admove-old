@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.admove.R;
 import com.admove.android.database.DBFactory;
 import com.admove.android.model.Location;
+import com.admove.android.utils.MapUtils;
 import com.admove.android.utils.PermissionUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -106,44 +107,32 @@ public class MapActivity extends AppCompatActivity implements
 
     private void placeRoad(){
 
-        new AsyncTask<Void, Void, SnappedPoint[]>(){
+        new AsyncTask<Void, Void, List<Location>>(){
 
             @Override
-            protected SnappedPoint[] doInBackground(Void... params) {
+            protected List<Location> doInBackground(Void... params) {
                 List<Location> locations = DBFactory.getInstance().getLocationManager().getAll();
                 if (locations.size() == 0){
                     locations = getLocationsList();
                 }
-
-//                placeLocations(locations, 10, Color.BLUE);
-
-
-                final GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyCyg7ZAGa3TjVDaNiE2b7k4Hycq9IiXeUs");
-                final com.google.maps.model.LatLng[] roadArr = new com.google.maps.model.LatLng[locations.size()];
-                for (int i = 0; i < locations.size(); i++) {
-                    roadArr[i] = new com.google.maps.model.LatLng(locations.get(i).getLatitude(), locations.get(i).getLongitude());
-                }
-                try {
-                    return RoadsApi.snapToRoads(context, true, roadArr).await();
-                } catch (Exception e) {
-                    Log.d("Exception", e.getMessage());
-                }
-                return null;
+                return MapUtils.snapToRoads(locations);
             }
 
             @Override
-            protected void onPostExecute(SnappedPoint[] result) {
+            protected void onPostExecute(List<Location> result) {
                 if (result != null) {
                     PolylineOptions road = new PolylineOptions().width(10).color(Color.RED);
-                    for (int i = 0; i < result.length; i++) {
-                        LatLng p = new LatLng(result[i].location.lat, result[i].location.lng);
+                    for (int i = 0; i < result.size(); i++) {
+                        LatLng p = new LatLng(result.get(i).getLatitude(), result.get(i).getLongitude());
                         road.add(p);
                     }
                     mMap.addPolyline(road);
-                    Log.d("locationLog", "place real road");
-                    if (result.length > 0) {
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(result[0].location.lat, result[0].location.lng), 20));
+                    if (result.size() > 0) {
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(result.get(0).getLatitude(), result.get(0).getLongitude()), 20));
                     }
+                    double distance = MapUtils.countDistance(result.toArray(new Location[0]));
+                    Log.d("snapToRoads", "road distance: "+distance);
+                    Toast.makeText(getBaseContext(), "Distance: "+distance+"km", Toast.LENGTH_LONG).show();
                 }
             }
         }.execute();
