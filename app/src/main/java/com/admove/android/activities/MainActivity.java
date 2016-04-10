@@ -184,6 +184,7 @@ public class MainActivity extends AppCompatActivity
             AWSMobileClient.defaultMobileClient().getIdentityManager().signOut();
             Intent intent = new Intent(this, SignInActivity.class);
             startActivity(intent);
+            finish();
         }else {
             // Handle navigation view item clicks here.
             changeFragment(item.getItemId());
