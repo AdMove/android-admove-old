@@ -12,13 +12,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.admove.R;
+import com.amazonaws.mobile.user.signin.SignInManager;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
+    private final static String LOG_TAG = SignInActivity.class.getSimpleName();
     private static final int REQUEST_SIGNUP = 0;
+
+    private SignInManager signInManager;
 
     @InjectView(R.id.input_email)
     EditText _emailText;
@@ -107,7 +111,9 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onLoginSuccess() {
         _loginButton.setEnabled(true);
-        finish();
+        // TODO: finish();
+        Intent mainIntent = new Intent(this, MainActivity.class);
+        startActivity(mainIntent);
     }
 
     public void onLoginFailed() {
