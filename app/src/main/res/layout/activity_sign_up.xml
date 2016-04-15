@@ -64,7 +64,7 @@
                 android:inputType="textPassword" />
         </android.support.design.widget.TextInputLayout>
 
-        <!-- Signup Button -->
+        <!-- Sign up Button -->
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_signup"
             android:layout_width="fill_parent"
@@ -81,7 +81,7 @@
             android:layout_marginBottom="24dp"
             android:gravity="center"
             android:text="Already a member? Login"
-            android:textSize="16dip" />
+            android:textSize="16sp" />
 
     </LinearLayout>
 </ScrollView>

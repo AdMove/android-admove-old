@@ -63,7 +63,7 @@
             android:name=".android.activities.LoginActivity"
             android:theme="@style/AppTheme.Dark" />
         <activity
-            android:name=".android.activities.SignupActivity"
+            android:name=".android.activities.SignUpActivity"
             android:theme="@style/AppTheme.Dark" />
 
         <!--activity

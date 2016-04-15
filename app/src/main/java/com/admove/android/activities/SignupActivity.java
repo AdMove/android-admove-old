@@ -15,8 +15,8 @@ import com.admove.R;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class SignupActivity extends AppCompatActivity {
-    private static final String TAG = "SignupActivity";
+public class SignUpActivity extends AppCompatActivity {
+    private static final String TAG = "SignUpActivity";
 
     @InjectView(R.id.input_name)
     EditText _nameText;
@@ -32,7 +32,7 @@ public class SignupActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signup);
+        setContentView(R.layout.activity_sign_up);
         ButterKnife.inject(this);
 
         _signupButton.setOnClickListener(new View.OnClickListener() {
@@ -61,7 +61,7 @@ public class SignupActivity extends AppCompatActivity {
 
         _signupButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this,
+        final ProgressDialog progressDialog = new ProgressDialog(SignUpActivity.this,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Creating Account...");

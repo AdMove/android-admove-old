@@ -12,4 +12,6 @@
     <color name="primary_dark">#0388DA</color>
     <color name="primary_darker">#026C9C</color>
     <color name="accent">#FFFFFF</color>
+
+    <color name="google_sign_in">#DD4C3A</color>
 </resources>
