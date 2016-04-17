@@ -20,7 +20,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <permission
-        android:name="com.amazon.admove.permission.C2D_MESSAGE"
+        android:name="com.admove.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
     <uses-feature android:name="android.hardware.camera" />

@@ -37,7 +37,7 @@ public class App extends MultiDexApplication {
                 // ...Put any application-specific push state change logic here...
             }
         });
-
+        AWSMobileClient.defaultMobileClient().getPushManager().registerDevice();
 
         dbHelper = new DBHelper(this);
     }

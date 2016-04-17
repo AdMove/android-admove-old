@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class PushListenerService extends GcmListenerService {
 
-    private static final String LOG_TAG = PushListenerService.class.getSimpleName();
+    private static final String LOG_TAG = "Push Message";
 
     // Intent action used in local broadcast
     public static final String ACTION_SNS_NOTIFICATION = "sns-notification";

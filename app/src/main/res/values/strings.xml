@@ -2,7 +2,7 @@
     <string name="app_name">AdMove</string>
 
     <string name="facebook_app_id">181154708936062</string>
-    <string name="google_cloud_messaging_package">com.admove.android</string>
+    <string name="google_cloud_messaging_package">com.admove</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
