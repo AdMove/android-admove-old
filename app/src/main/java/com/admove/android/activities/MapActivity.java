@@ -107,35 +107,43 @@ public class MapActivity extends AppCompatActivity implements
 
     private void placeRoad(){
 
-        new AsyncTask<Void, Void, List<Location>>(){
+        new AsyncTask<Void, Void, List<Location>[]>(){
 
             @Override
-            protected List<Location> doInBackground(Void... params) {
+            protected List<Location>[] doInBackground(Void... params) {
                 List<Location> locations = DBFactory.getInstance().getLocationManager().getAll();
                 if (locations.size() == 0){
                     locations = getLocationsList();
                 }
-                return MapUtils.snapToRoads(locations);
+                return new List[]{ MapUtils.snapToRoads(locations), locations };
             }
 
             @Override
-            protected void onPostExecute(List<Location> result) {
-                if (result != null) {
-                    PolylineOptions road = new PolylineOptions().width(10).color(Color.RED);
-                    for (int i = 0; i < result.size(); i++) {
-                        LatLng p = new LatLng(result.get(i).getLatitude(), result.get(i).getLongitude());
-                        road.add(p);
-                    }
+            protected void onPostExecute(List<Location>[] result) {
+                if (result[0] != null) {
+                    PolylineOptions road = listToPolyline(result[1]).width(5).color(Color.RED); // real coordinates
                     mMap.addPolyline(road);
-                    if (result.size() > 0) {
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(result.get(0).getLatitude(), result.get(0).getLongitude()), 20));
+
+                    road = listToPolyline(result[0]).width(10).color(Color.BLUE);               // snapped coordinates
+                    mMap.addPolyline(road);
+                    if (result[0].size() > 0) {
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(result[0].get(0).getLatitude(), result[0].get(0).getLongitude()), 20));
                     }
-                    double distance = MapUtils.countDistance(result.toArray(new Location[0]));
+                    double distance = MapUtils.countDistance(result[0].toArray(new Location[0]));
                     Log.d("snapToRoads", "road distance: "+distance);
                     Toast.makeText(getBaseContext(), "Distance: "+distance+"km", Toast.LENGTH_LONG).show();
                 }
             }
         }.execute();
+    }
+
+    private PolylineOptions listToPolyline(List<Location> list){
+        PolylineOptions road = new PolylineOptions();
+        for (int i = 0; i < list.size(); i++) {
+            LatLng p = new LatLng(list.get(i).getLatitude(), list.get(i).getLongitude());
+            road.add(p);
+        }
+        return road;
     }
 
     private ArrayList<Location> getLocationsList(){

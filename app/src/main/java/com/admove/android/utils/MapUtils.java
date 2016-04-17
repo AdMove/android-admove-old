@@ -53,7 +53,11 @@ public class MapUtils {
         Location start = coordinates[0];
         for (int i = 1; i < coordinates.length; i++) {
             Location end = coordinates[i];
-            dist += distance(start.getLatitude(), start.getLongitude(), end.getLatitude(), end.getLongitude());
+            double d = distance(start.getLatitude(), start.getLongitude(), end.getLatitude(), end.getLongitude());
+            if (Double.isNaN(d)){
+                Log.e("distance", String.format("NaN is returned for (%d, %d) -> (%d, %d)", start.getLatitude(), start.getLongitude(), end.getLatitude(), end.getLongitude()));
+            }
+            dist += d;
             start = end;
         }
 
