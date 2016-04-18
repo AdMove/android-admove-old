@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        Log.d("temp", "option selected: "+item);
+        Log.d("temp", "option selected: " + item);
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -180,12 +180,12 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
-        if (item.getItemId() == R.id.nav_logout){
+        if (item.getItemId() == R.id.nav_logout) {
             AWSMobileClient.defaultMobileClient().getIdentityManager().signOut();
-            Intent intent = new Intent(this, SignInActivity.class);
+            Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();
-        }else {
+        } else {
             // Handle navigation view item clicks here.
             changeFragment(item.getItemId());
         }
