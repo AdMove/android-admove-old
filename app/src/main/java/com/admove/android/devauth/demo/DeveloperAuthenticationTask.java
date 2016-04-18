@@ -19,7 +19,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.admove.android.activities.CognitoSyncClientManager;
 import com.admove.android.devauth.client.Response;
 
 

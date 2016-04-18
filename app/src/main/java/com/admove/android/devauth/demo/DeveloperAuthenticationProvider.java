@@ -19,7 +19,6 @@ import android.content.Context;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.admove.android.activities.CognitoSyncClientManager;
 import com.admove.android.devauth.client.AmazonCognitoSampleDeveloperAuthenticationClient;
 import com.admove.android.devauth.client.GetTokenResponse;
 import com.amazonaws.auth.AWSAbstractCognitoDeveloperIdentityProvider;

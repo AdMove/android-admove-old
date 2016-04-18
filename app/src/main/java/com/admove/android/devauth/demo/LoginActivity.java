@@ -1,4 +1,4 @@
-package com.admove.android.activities;
+package com.admove.android.devauth.demo;
 
 import android.Manifest;
 import android.app.Activity;
@@ -18,7 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.admove.R;
-import com.admove.android.devauth.demo.DeveloperAuthenticationProvider;
+import com.admove.android.activities.MainActivity;
+import com.admove.android.activities.SignInActivity;
+import com.admove.android.activities.SignUpActivity;
 import com.amazonaws.mobile.AWSMobileClient;
 import com.amazonaws.mobile.user.IdentityManager;
 import com.amazonaws.mobile.user.IdentityProvider;

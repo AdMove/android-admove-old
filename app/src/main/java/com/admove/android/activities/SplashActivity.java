@@ -16,6 +16,7 @@ import android.view.MotionEvent;
 import android.widget.Toast;
 
 import com.admove.R;
+import com.admove.android.devauth.demo.LoginActivity;
 import com.amazonaws.mobile.AWSMobileClient;
 import com.amazonaws.mobile.user.IdentityManager;
 import com.amazonaws.mobile.user.IdentityProvider;

@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package com.admove.android.activities;
+package com.admove.android.devauth.demo;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

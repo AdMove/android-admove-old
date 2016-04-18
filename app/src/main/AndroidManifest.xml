@@ -60,7 +60,7 @@
         </activity>
 
         <activity
-            android:name=".android.activities.LoginActivity"
+            android:name=".android.devauth.demo.LoginActivity"
             android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".android.activities.SignUpActivity"

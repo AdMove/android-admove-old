@@ -35,6 +35,7 @@ import com.admove.android.behavior.ServiceStatus;
 import com.admove.android.behavior.StartTrackingAction;
 import com.admove.android.behavior.StopTrackingAction;
 import com.admove.android.behavior.TrackingAction;
+import com.admove.android.devauth.demo.LoginActivity;
 import com.admove.android.fragments.HomeFragment;
 import com.admove.android.fragments.InboxFragment;
 import com.admove.android.fragments.ManageFragment;
