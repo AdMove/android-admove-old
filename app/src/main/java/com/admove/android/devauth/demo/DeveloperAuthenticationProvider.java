@@ -37,8 +37,8 @@ public class DeveloperAuthenticationProvider extends
 
     private static AmazonCognitoSampleDeveloperAuthenticationClient devAuthClient;
 
-    private static final String developerProvider = "";
-    private static final String cognitoSampleDeveloperAuthenticationAppEndpoint = "";
+    private static final String developerProvider = "admove.giorgi.com";
+    private static final String cognitoSampleDeveloperAuthenticationAppEndpoint = "http://52.201.127.184/login/";
     private static final String cognitoSampleDeveloperAuthenticationAppName = "AWSCognitoDeveloperAuthenticationSample";
 
     public DeveloperAuthenticationProvider(String accountId,
