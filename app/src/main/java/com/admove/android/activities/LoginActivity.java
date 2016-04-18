@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.admove.R;
+import com.admove.android.devauth.demo.DeveloperAuthenticationProvider;
 import com.amazonaws.mobile.AWSMobileClient;
 import com.amazonaws.mobile.user.IdentityManager;
 import com.amazonaws.mobile.user.IdentityProvider;
@@ -204,6 +205,18 @@ public class LoginActivity extends AppCompatActivity {
         String password = _passwordText.getText().toString();
 
         // TODO: Implement your own authentication logic here.
+
+        // Clear the existing credentials
+        CognitoSyncClientManager.credentialsProvider
+                .clearCredentials();
+        // Initiate user authentication against the
+        // developer backend in this case the sample Cognito
+        // developer authentication application.
+        ((DeveloperAuthenticationProvider) CognitoSyncClientManager.credentialsProvider
+                .getIdentityProvider()).login(
+                email,
+                password,
+                LoginActivity.this);
 
         new android.os.Handler().postDelayed(
                 new Runnable() {
