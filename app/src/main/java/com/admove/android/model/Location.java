@@ -52,4 +52,5 @@ public class Location {
     public String toString() {
         return latitude + ":" + longitude + "(" + new Time(time) + ")";
     }
+
 }
